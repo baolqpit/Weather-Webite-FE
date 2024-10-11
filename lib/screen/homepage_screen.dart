@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:weather_forecast_website/controller/weather_controller.dart';
+import 'package:weather_forecast_website/controller/web_controller.dart';
 import 'package:weather_forecast_website/screen/weather_management_screen.dart';
 import 'package:weather_forecast_website/share/colors/app_color.dart';
 import 'package:weather_forecast_website/share/dimens/dimens.dart';
+import 'package:weather_forecast_website/share/functions/functions.dart';
 import 'package:weather_forecast_website/share/widgets/app_text.dart';
 import 'package:weather_forecast_website/share/widgets/custom_nav_bar.dart';
 
@@ -13,7 +17,18 @@ class HomepageScreen extends StatefulWidget {
 }
 
 class _HomepageScreenState extends State<HomepageScreen> {
+  final WebController webController = Get.find();
+  final WeatherController weatherController = Get.find();
   TextEditingController emailController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+     onWidgetBuildDone(() async {
+      await weatherController.getCurrentWeatherData(context: context, city: 'London');
+     });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +43,10 @@ class _HomepageScreenState extends State<HomepageScreen> {
   }
 
   _buildWeatherManagement() {
-    return const WeatherManagementScreen();
+    return Obx(() => webController.isLoading.value
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : const WeatherManagementScreen());
   }
 }

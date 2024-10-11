@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:weather_forecast_website/controller/weather_controller.dart';
 
 import 'controller/user_controller.dart';
 
@@ -8,8 +9,7 @@ class InitialBinding implements Bindings {
   void dependencies() {
     print('Initial Controller');
     Get.put<UserController>(UserController());
-    // Get.put<ImageController>(ImageController());
-    // Get.put<AlbumController>(AlbumController());
+    Get.put<WeatherController>(WeatherController());
     // TODO: implement dependencies
   }
 

@@ -15,7 +15,7 @@ class AppText extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Text(content ?? "", style: TextStyle(
-        fontStyle: fontStyle ?? FontStyle.normal,
+        fontStyle: FontStyle.normal,
         fontSize: textSize ?? 16,
         color: color ?? Colors.black,
         fontWeight: fontWeight ?? FontWeight.normal
