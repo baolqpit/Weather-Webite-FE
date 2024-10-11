@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weather_forecast_website/controller/weather_controller.dart';
 import 'package:weather_forecast_website/controller/web_controller.dart';
+import 'package:weather_forecast_website/screen/weather_store_screen.dart';
 import 'package:weather_forecast_website/share/colors/app_color.dart';
 import 'package:weather_forecast_website/share/dimens/dimens.dart';
 import 'package:weather_forecast_website/share/format/format.dart';
@@ -24,6 +25,8 @@ class _DashboardSectionState extends State<DashboardSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _buildCurrentWeather(),
+        Dimens.height20,
+        _buildLoadWeatherStore(),
         Dimens.height20,
         _buildForecastWeather()
       ],
@@ -72,6 +75,10 @@ class _DashboardSectionState extends State<DashboardSection> {
           ));
   }
 
+  _buildLoadWeatherStore () {
+    return const WeatherStoreScreen();
+  }
+
   _buildForecastWeather() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,6 +93,7 @@ class _DashboardSectionState extends State<DashboardSection> {
             ElevatedButton(
               onPressed: () async {
                 await weatherController.storeWeatherData();
+                await weatherController.getWeatherStorage();
               },
               style: ElevatedButton.styleFrom(backgroundColor: AppColor.green),
               child: AppText(

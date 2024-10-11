@@ -22,6 +22,14 @@ class _CitySectionState extends State<CitySection> {
   TextEditingController cityTextEditingController = TextEditingController();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    emailTextEditingController.clear();
+    cityTextEditingController.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

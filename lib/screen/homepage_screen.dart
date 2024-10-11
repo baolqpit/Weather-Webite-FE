@@ -25,7 +25,8 @@ class _HomepageScreenState extends State<HomepageScreen> {
   void initState() {
     // TODO: implement initState
      onWidgetBuildDone(() async {
-      await weatherController.getCurrentWeatherData(context: context, city: 'London');
+      await weatherController.getCurrentWeatherData(city: 'London');
+      await weatherController.getWeatherStorage();
      });
     super.initState();
   }

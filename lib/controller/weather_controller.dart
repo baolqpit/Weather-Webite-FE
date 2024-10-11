@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:weather_forecast_website/controller/web_controller.dart';
 import 'package:weather_forecast_website/models/weather_model.dart';
+import 'package:weather_forecast_website/models/weather_model_from_db.dart';
 import 'package:weather_forecast_website/share/widgets/dialog.dart';
 
 class WeatherController extends GetxController {
@@ -15,23 +16,22 @@ class WeatherController extends GetxController {
   final Dio _dio = Dio();
 
   Rx<WeatherModel?> currentWeather = Rx<WeatherModel?>(null);
+  Rx<WeatherModelFromDb?> itemSelected = Rx<WeatherModelFromDb?>(null);
+  RxList<WeatherModelFromDb?> listWeatherStored =
+      RxList<WeatherModelFromDb?>([]);
 
   ///GET CURRENT WEATHER DATA
-  getCurrentWeatherData({required BuildContext context, required String city}) async {
+  getCurrentWeatherData({required String city}) async {
     webController.isLoading.value = true;
     String? _apiKey = dotenv.env['WEATHER_API_KEY'];
 
     if (_apiKey == null || _apiKey.isEmpty) {
-      showErrorDialog(context: context, content: 'Invalid API Key');
+      showErrorDialog(context: Get.context!, content: 'Invalid API Key');
       webController.isLoading.value = false;
       return;
     }
 
-    Map<String, dynamic> params = {
-      'key': _apiKey,
-      'q': city,
-      'aqi': 'no'
-    };
+    Map<String, dynamic> params = {'key': _apiKey, 'q': city, 'aqi': 'no'};
 
     try {
       var response = await _dio.get('${_apiUrl}current.json',
@@ -43,17 +43,19 @@ class WeatherController extends GetxController {
     } on DioException catch (e) {
       if (e.response != null) {
         webController.isLoading.value = false;
-        showErrorDialog(context: context, content: "${e.response!.statusCode}: ${e.response!.data}");
+        showErrorDialog(
+            context: Get.context!,
+            content: "${e.response!.statusCode}: ${e.response!.data}");
       } else {
         webController.isLoading.value = false;
-        showErrorDialog(context: context, content: 'Server Error!');
+        showErrorDialog(context: Get.context!, content: 'Server Error!');
       }
     }
   }
 
   ///FORECAST 4 DAYS LATER AND MORE
   ///STORE WEATHER DATA
-  storeWeatherData () async {
+  storeWeatherData() async {
     webController.isLoading.value = true;
 
     Map<String, dynamic> data = {
@@ -73,7 +75,8 @@ class WeatherController extends GetxController {
           data: data,
           options: Options(contentType: 'application/x-www-form-urlencoded'));
       webController.isLoading.value = false;
-      showSuccessDialog(context: Get.context!, content: 'Save Current Weather Successfully!');
+      showSuccessDialog(
+          context: Get.context!, content: 'Save Current Weather Successfully!');
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
@@ -91,6 +94,34 @@ class WeatherController extends GetxController {
           default:
             break;
         }
+      }
+    }
+  }
+
+  ///GET WEATHER DATA FROM DB
+  getWeatherStorage() async {
+    webController.isLoading.value = true;
+
+    try {
+      var response = await _dio.get('${_baseUrl}show-weather-list',
+          options: Options(contentType: 'application/json'));
+      webController.isLoading.value = false;
+      response != null
+          ? listWeatherStored.value = response.data['weather']
+              .map<WeatherModelFromDb>(
+                  (json) => WeatherModelFromDb.fromJson(json))
+              .toList()
+          : null;
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        webController.isLoading.value = false;
+        showErrorDialog(
+            context: Get.context!,
+            content: "${e.response!.statusCode}: ${e.response!.data}");
+      } else {
+        webController.isLoading.value = false;
+        showErrorDialog(context: Get.context!, content: 'Server Error!');
       }
     }
   }
