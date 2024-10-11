@@ -22,15 +22,7 @@ class _CitySectionState extends State<CitySection> {
   final WeatherController weatherController = Get.find();
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController cityTextEditingController = TextEditingController();
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    emailTextEditingController.clear();
-    cityTextEditingController.clear();
-    super.dispose();
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -166,6 +158,7 @@ class _CitySectionState extends State<CitySection> {
               showWarningDialog(context: context, content: "Enter city");
             } else {
               await weatherController.getCurrentWeatherData(city: cityTextEditingController.text);
+              await weatherController.forecastWeather(city: cityTextEditingController.text);
             }
           },
           style: ElevatedButton.styleFrom(backgroundColor: AppColor.red),

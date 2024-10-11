@@ -7,7 +7,7 @@ class WeatherModelFromDb {
   final double tempC;
   final double tempF;
   final double windMph;
-  final dynamic windKph;
+  final double windKph;
   final double windDegree;
   final String createdAt;
 

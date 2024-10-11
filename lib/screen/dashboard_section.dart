@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weather_forecast_website/controller/weather_controller.dart';
 import 'package:weather_forecast_website/controller/web_controller.dart';
+import 'package:weather_forecast_website/screen/forecast_section.dart';
 import 'package:weather_forecast_website/screen/weather_store_screen.dart';
 import 'package:weather_forecast_website/share/colors/app_color.dart';
 import 'package:weather_forecast_website/share/dimens/dimens.dart';
@@ -28,7 +29,11 @@ class _DashboardSectionState extends State<DashboardSection> {
         Dimens.height20,
         _buildLoadWeatherStore(),
         Dimens.height20,
-        _buildForecastWeather()
+        _buildForecastWeather(),
+        Dimens.height20,
+        const Expanded(
+          child: ForecastSection(),
+        ),
       ],
     );
   }
@@ -127,152 +132,16 @@ class _DashboardSectionState extends State<DashboardSection> {
             ElevatedButton(
                 style:
                     ElevatedButton.styleFrom(backgroundColor: AppColor.amber),
-                onPressed: () {},
+                onPressed: () {
+                  weatherController.forecast4DaysNext(weatherController.listWeatherForecastDate);
+                },
                 child: AppText(
                   content: 'Forecast More',
                 )),
           ],
         ),
         Dimens.height20,
-        Row(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Dimens.padding_horizontal,
-                  vertical: Dimens.padding_vertical),
-              decoration: _buildBoxDecoration(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  AppText(
-                    content: '11/10/2024',
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.white,
-                  ),
-                  Dimens.height10,
-                  AppText(
-                    content: 'Temp: ',
-                    color: AppColor.white,
-                  ),
-                  Dimens.height5,
-                  AppText(
-                    content: 'Wind: ',
-                    color: AppColor.white,
-                  ),
-                  Dimens.height5,
-                  AppText(
-                    content: 'Humidity: ',
-                    color: AppColor.white,
-                  ),
-                ],
-              ),
-            ),
-            Dimens.width10,
-            Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Dimens.padding_horizontal,
-                  vertical: Dimens.padding_vertical),
-              decoration: _buildBoxDecoration(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  AppText(
-                    content: '11/10/2024',
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.white,
-                  ),
-                  Dimens.height10,
-                  AppText(
-                    content: 'Temp: ',
-                    color: AppColor.white,
-                  ),
-                  Dimens.height5,
-                  AppText(
-                    content: 'Wind: ',
-                    color: AppColor.white,
-                  ),
-                  Dimens.height5,
-                  AppText(
-                    content: 'Humidity: ',
-                    color: AppColor.white,
-                  ),
-                ],
-              ),
-            ),
-            Dimens.width10,
-            Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Dimens.padding_horizontal,
-                  vertical: Dimens.padding_vertical),
-              decoration: _buildBoxDecoration(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  AppText(
-                    content: '11/10/2024',
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.white,
-                  ),
-                  Dimens.height10,
-                  AppText(
-                    content: 'Temp: ',
-                    color: AppColor.white,
-                  ),
-                  Dimens.height5,
-                  AppText(
-                    content: 'Wind: ',
-                    color: AppColor.white,
-                  ),
-                  Dimens.height5,
-                  AppText(
-                    content: 'Humidity: ',
-                    color: AppColor.white,
-                  ),
-                ],
-              ),
-            ),
-            Dimens.width10,
-            Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Dimens.padding_horizontal,
-                  vertical: Dimens.padding_vertical),
-              decoration: _buildBoxDecoration(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  AppText(
-                    content: '11/10/2024',
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.white,
-                  ),
-                  Dimens.height10,
-                  AppText(
-                    content: 'Temp: ',
-                    color: AppColor.white,
-                  ),
-                  Dimens.height5,
-                  AppText(
-                    content: 'Wind: ',
-                    color: AppColor.white,
-                  ),
-                  Dimens.height5,
-                  AppText(
-                    content: 'Humidity: ',
-                    color: AppColor.white,
-                  ),
-                ],
-              ),
-            ),
-            Dimens.width10,
-          ],
-        )
       ],
     );
-  }
-
-  _buildBoxDecoration() {
-    return BoxDecoration(
-        color: Colors.black54,
-        borderRadius: BorderRadius.circular(Dimens.circular5));
   }
 }

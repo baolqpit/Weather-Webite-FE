@@ -20,13 +20,6 @@ class _WeatherStoreScreenState extends State<WeatherStoreScreen> {
   final WeatherController weatherController = Get.find();
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-    weatherController.itemSelected.value = null;
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Obx(() => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,8 +35,11 @@ class _WeatherStoreScreenState extends State<WeatherStoreScreen> {
                   suffixIcon: weatherController.itemSelected.value == null
                       ? null
                       : IconButton(
-                          onPressed: () =>
-                              weatherController.itemSelected.value = null,
+                          onPressed: () async {
+                            weatherController.itemSelected.value = null;
+                            await weatherController.getCurrentWeatherData(city: 'Ho Chi Minh');
+                            await weatherController.forecastWeather(city: 'Ho Chi Minh');
+                          },
                           icon: const Icon(Icons.clear)),
                 ),
                 hint: AppText(content: 'Choose date'),
@@ -51,7 +47,7 @@ class _WeatherStoreScreenState extends State<WeatherStoreScreen> {
                     .map((item) => DropdownMenuItem(
                         value: item, child: AppText(content: convertToLocalTime(utcDateTime: item!.createdAt))))
                     .toList(),
-                onChanged: (WeatherModelFromDb? value) {
+                onChanged: (WeatherModelFromDb? value) async {
                   if (value != null) {
                     WeatherModel weatherModel = WeatherModel(
                         name: value!.name,
@@ -65,6 +61,7 @@ class _WeatherStoreScreenState extends State<WeatherStoreScreen> {
                         windDegree: value!.windDegree);
                     weatherController.currentWeather.value = weatherModel;
                     weatherController.itemSelected.value = value;
+                    await weatherController.forecastWeather(city: weatherController.currentWeather.value!.name);
                   }
                 }),
           ],
