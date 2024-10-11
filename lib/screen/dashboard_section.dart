@@ -45,37 +45,59 @@ class _DashboardSectionState extends State<DashboardSection> {
               color: AppColor.primary,
               borderRadius: BorderRadius.circular(Dimens.sizeValue5),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                AppText(
-                  content:
-                      "${weatherController.currentWeather.value!.name} (${formatStringToDateTime(datetime: weatherController.currentWeather.value!.localtime!)})",
-                  color: AppColor.white,
-                  fontWeight: FontWeight.bold,
-                  textSize: Dimens.font_size_title,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    AppText(
+                      content:
+                          "${weatherController.currentWeather.value!.name} (${formatStringToDateTime(datetime: weatherController.currentWeather.value!.localtime!)})",
+                      color: AppColor.white,
+                      fontWeight: FontWeight.bold,
+                      textSize: Dimens.font_size_title,
+                    ),
+                    Dimens.height20,
+                    AppText(
+                      content:
+                          'Temperature: ${weatherController.currentWeather.value!.tempC}℃',
+                      color: AppColor.white,
+                    ),
+                    Dimens.height5,
+                    AppText(
+                      content:
+                          'Wind: ${weatherController.currentWeather.value!.windMph} Mph',
+                      color: AppColor.white,
+                    ),
+                    Dimens.height5,
+                    AppText(
+                      content:
+                          'Humidity: ${weatherController.currentWeather.value!.humidity}%',
+                      color: AppColor.white,
+                    )
+                  ],
                 ),
-                Dimens.height20,
-                AppText(
-                  content: 'Temperature: ${weatherController.currentWeather.value!.tempC}℃',
-                  color: AppColor.white,
-                ),
-                Dimens.height5,
-                AppText(
-                  content: 'Wind: ${weatherController.currentWeather.value!.windMph} Mph',
-                  color: AppColor.white,
-                ),
-                Dimens.height5,
-                AppText(
-                  content: 'Humidity: ${weatherController.currentWeather.value!.humidity}%',
-                  color: AppColor.white,
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10), // Bo góc
+                  ),
+                  child: Image.network(
+                    weatherController.currentWeather.value!.icon,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.contain,
+                  ),
                 )
               ],
             ),
           ));
   }
 
-  _buildLoadWeatherStore () {
+  _buildLoadWeatherStore() {
     return const WeatherStoreScreen();
   }
 

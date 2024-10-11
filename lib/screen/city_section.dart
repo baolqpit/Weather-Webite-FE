@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weather_forecast_website/controller/user_controller.dart';
+import 'package:weather_forecast_website/controller/weather_controller.dart';
 import 'package:weather_forecast_website/screen/otp_verify_screen.dart';
 import 'package:weather_forecast_website/share/dimens/dimens.dart';
 import 'package:weather_forecast_website/share/widgets/app_text.dart';
@@ -18,6 +19,7 @@ class CitySection extends StatefulWidget {
 
 class _CitySectionState extends State<CitySection> {
   final UserController userController = Get.find();
+  final WeatherController weatherController = Get.find();
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController cityTextEditingController = TextEditingController();
 
@@ -140,6 +142,7 @@ class _CitySectionState extends State<CitySection> {
                   BorderSide(color: AppColor.white)),
               borderRadius: BorderRadius.circular(Dimens.circular5)),
           child: TextField(
+            style: const TextStyle(color: AppColor.white),
             controller: cityTextEditingController,
             decoration: const InputDecoration(
               border: InputBorder.none,
@@ -158,7 +161,13 @@ class _CitySectionState extends State<CitySection> {
       width: double.infinity,
       height: 50,
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () async {
+            if (cityTextEditingController.text.isEmpty) {
+              showWarningDialog(context: context, content: "Enter city");
+            } else {
+              await weatherController.getCurrentWeatherData(city: cityTextEditingController.text);
+            }
+          },
           style: ElevatedButton.styleFrom(backgroundColor: AppColor.red),
           child: AppText(
             content: 'Search',
@@ -172,7 +181,9 @@ class _CitySectionState extends State<CitySection> {
       width: double.infinity,
       height: 50,
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () async {
+            await weatherController.getCurrentWeatherData(city: "Ho Chi Minh");
+          },
           style: ElevatedButton.styleFrom(backgroundColor: AppColor.grey),
           child: AppText(
             content: 'Use Current Location',

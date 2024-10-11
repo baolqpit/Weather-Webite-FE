@@ -23,7 +23,6 @@ class _WeatherStoreScreenState extends State<WeatherStoreScreen> {
   void dispose() {
     // TODO: implement dispose
     weatherController.itemSelected.value = null;
-    weatherController.listWeatherStored.clear();
     super.dispose();
   }
 
