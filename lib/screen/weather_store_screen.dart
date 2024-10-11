@@ -30,6 +30,7 @@ class _WeatherStoreScreenState extends State<WeatherStoreScreen> {
               textSize: Dimens.font_size_title,
             ),
             DropdownButtonFormField(
+              menuMaxHeight: 200,
                 value: weatherController.itemSelected.value,
                 decoration: InputDecoration(
                   suffixIcon: weatherController.itemSelected.value == null
