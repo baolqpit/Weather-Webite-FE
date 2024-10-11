@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -9,6 +11,7 @@ import 'package:weather_forecast_website/share/widgets/dialog.dart';
 class WeatherController extends GetxController {
   final WebController webController = Get.find();
   final _apiUrl = "http://api.weatherapi.com/v1/";
+  final _baseUrl = "http://localhost:8000/api/";
   final Dio _dio = Dio();
 
   Rx<WeatherModel?> currentWeather = Rx<WeatherModel?>(null);
@@ -49,5 +52,46 @@ class WeatherController extends GetxController {
   }
 
   ///FORECAST 4 DAYS LATER AND MORE
+  ///STORE WEATHER DATA
+  storeWeatherData () async {
+    webController.isLoading.value = true;
 
+    Map<String, dynamic> data = {
+      'name': currentWeather.value!.name,
+      'localtime': currentWeather.value!.localtime,
+      'icon': currentWeather.value!.icon,
+      'humidity': currentWeather.value!.humidity,
+      'tempC': currentWeather.value!.tempC,
+      'tempF': currentWeather.value!.tempF,
+      'windMph': currentWeather.value!.windMph,
+      'windKph': currentWeather.value!.windKph,
+      'windDegree': currentWeather.value!.windDegree,
+    };
+
+    try {
+      var response = await _dio.post('${_baseUrl}store-weather-current',
+          data: data,
+          options: Options(contentType: 'application/x-www-form-urlencoded'));
+      webController.isLoading.value = false;
+      showSuccessDialog(context: Get.context!, content: 'Save Current Weather Successfully!');
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        webController.isLoading.value = false;
+        switch (e.response!.statusCode) {
+          case 400:
+            showWarningDialog(
+                context: Get.context!, content: e.response!.data['message']);
+            break;
+          case 500:
+            showErrorDialog(
+                context: Get.context!,
+                content: 'Server error. Please try again later.');
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
 }

@@ -64,7 +64,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
         if (otpEditingController.text.isEmpty) {
           showWarningDialog(context: context, content: "Please fill in otp");
         } else {
-          var res = userController.verifyOtp(context: context, email: widget.email, otp: otpEditingController.text);
+          var res = userController.verifyOtp(email: widget.email, otp: otpEditingController.text);
           if (res != null) {
             print(res);
             Get.back();

@@ -84,7 +84,9 @@ class _DashboardSectionState extends State<DashboardSection> {
         Row(
           children: <Widget>[
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                await weatherController.storeWeatherData();
+              },
               style: ElevatedButton.styleFrom(backgroundColor: AppColor.green),
               child: AppText(
                 content: 'Save report date',

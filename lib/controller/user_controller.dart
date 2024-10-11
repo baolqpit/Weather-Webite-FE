@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:weather_forecast_website/api/app_api/user_api.dart';
 import 'package:weather_forecast_website/controller/web_controller.dart';
 import 'package:weather_forecast_website/share/widgets/dialog.dart';
 
@@ -13,7 +12,7 @@ class UserController extends GetxController {
   final WebController webController = Get.find();
 
   ///SEND OTP TO EMAIL
-  sendOTPToEmail({required BuildContext context, required String email}) async {
+  sendOTPToEmail({required String email}) async {
     webController.isLoading.value = true;
 
     Map<String, dynamic> data = {'email': email};
@@ -22,19 +21,21 @@ class UserController extends GetxController {
       var response = await _dio.post('${_baseUrl}send-otp',
           data: data,
           options: Options(contentType: 'application/x-www-form-urlencoded'));
-      webController.isLoading.value = true;
+      webController.isLoading.value = false;
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
+        webController.isLoading.value = false;
         switch (e.response!.statusCode) {
           case 400:
-            showWarningDialog(
-                context: context, content: e.response!.data['message']);
+              showWarningDialog(
+                  context: Get.context!, content: e.response!.data['message']);
             break;
+
           case 500:
-            showErrorDialog(
-                context: context,
-                content: 'Server error. Please try again later.');
+              showErrorDialog(
+                  context: Get.context!,
+                  content: 'Server error. Please try again later.');
             break;
           default:
             break;
@@ -45,7 +46,7 @@ class UserController extends GetxController {
 
   ///VERIFY OTP
   verifyOtp(
-      {required BuildContext context,
+      {
       required String email,
       required String otp}) async {
     webController.isLoading.value = true;
@@ -59,14 +60,15 @@ class UserController extends GetxController {
       var response = await _dio.post('${_baseUrl}verify-otp',
           data: data,
           options: Options(contentType: 'application/x-www-form-urlencoded'));
-      webController.isLoading.value = true;
+      webController.isLoading.value = false;
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
-        showErrorDialog(
-            context: context,
-            content:
-                "${e.response!.statusCode} ${e.response!.data['message']}");
+        webController.isLoading.value = false;
+          showErrorDialog(
+              context: Get.context!,
+              content:
+              "${e.response!.statusCode} ${e.response!.data['message']}");
       }
     }
   }

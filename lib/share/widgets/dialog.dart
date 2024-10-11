@@ -8,7 +8,7 @@ import '../dimens/dimens.dart';
 import 'app_text.dart';
 
 /// WARNING DIALOG
-showWarningDialog({required BuildContext context, required String content}) {
+Future<void> showWarningDialog({required BuildContext context, required String content}) {
   return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -36,8 +36,37 @@ showWarningDialog({required BuildContext context, required String content}) {
       });
 }
 
+/// SUCCESS DIALOG
+Future<void> showSuccessDialog({required BuildContext context, required String content}) {
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actions: <Widget>[
+            Center(
+                child: ElevatedButton(
+                    onPressed: () => Get.back(),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColor.primary),
+                    child: AppText(
+                      content: 'Okay',
+                      color: AppColor.white,
+                    )))
+          ],
+          content: AppText(content: content),
+          title: Center(
+              child: AppText(
+                content: 'SUCCESS',
+                color: AppColor.green,
+                fontWeight: FontWeight.bold,
+                textSize: Dimens.font_size_title,
+              )),
+        );
+      });
+}
+
 ///ERROR DIALOG
-showErrorDialog({required BuildContext context, required String content}) {
+Future <void> showErrorDialog({required BuildContext context, required String content}) {
   return showDialog(
       context: context,
       builder: (BuildContext context) {

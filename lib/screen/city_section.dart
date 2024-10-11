@@ -75,7 +75,7 @@ class _CitySectionState extends State<CitySection> {
           Dimens.width5,
           ElevatedButton(
             onPressed: () async {
-              var res = await userController.sendOTPToEmail(context: context, email: emailTextEditingController.text);
+              var res = await userController.sendOTPToEmail(email: emailTextEditingController.text);
               if (res != null) {
                 showDialog(context: context, builder: (context) {
                   return OtpVerifyScreen(email: emailTextEditingController.text,);
