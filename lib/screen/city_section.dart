@@ -22,7 +22,7 @@ class _CitySectionState extends State<CitySection> {
   final WeatherController weatherController = Get.find();
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController cityTextEditingController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -8,6 +8,7 @@ import 'package:weather_forecast_website/share/colors/app_color.dart';
 import 'package:weather_forecast_website/share/dimens/dimens.dart';
 import 'package:weather_forecast_website/share/format/format.dart';
 import 'package:weather_forecast_website/share/widgets/app_text.dart';
+import 'package:weather_forecast_website/share/widgets/dialog.dart';
 
 class DashboardSection extends StatefulWidget {
   const DashboardSection({super.key});
@@ -119,8 +120,12 @@ class _DashboardSectionState extends State<DashboardSection> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () async {
-                await weatherController.storeWeatherData();
-                await weatherController.getWeatherStorage();
+                if (weatherController.itemSelected.value != null) {
+                  showWarningDialog(context: context, content: 'This has already been stored');
+                } else {
+                  await weatherController.storeWeatherData();
+                  await weatherController.getWeatherStorage();
+                }
               },
               style: ElevatedButton.styleFrom(backgroundColor: AppColor.green),
               child: AppText(
