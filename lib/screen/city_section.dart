@@ -75,20 +75,35 @@ class _CitySectionState extends State<CitySection> {
             ],
           )),
           Dimens.width5,
-          ElevatedButton(
-            onPressed: () async {
-              var res = await userController.sendOTPToEmail(email: emailTextEditingController.text);
-              if (res != null) {
-                showDialog(context: context, builder: (context) {
-                  return OtpVerifyScreen(email: emailTextEditingController.text,);
-                });
-              }
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: AppColor.red),
-            child: AppText(
-              content: 'Subscribe',
-              color: AppColor.white,
-            ),
+          Column(
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  var res = await userController.sendOTPToEmail(email: emailTextEditingController.text);
+                  if (res != null) {
+                    showDialog(context: context, builder: (context) {
+                      return OtpVerifyScreen(email: emailTextEditingController.text,);
+                    });
+                  }
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: AppColor.red),
+                child: AppText(
+                  content: 'Subscribe',
+                  color: AppColor.white,
+                ),
+              ),
+              Dimens.height5,
+              ElevatedButton(
+                onPressed: () async {
+                  await userController.unsubscribe(email: emailTextEditingController.text);
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: AppColor.grey),
+                child: AppText(
+                  content: 'Unsubscribe',
+                  color: AppColor.white,
+                ),
+              ),
+            ],
           )
         ],
       ),

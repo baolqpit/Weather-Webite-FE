@@ -72,4 +72,26 @@ class UserController extends GetxController {
       }
     }
   }
+
+  ///UNSUBSCRIBE
+  unsubscribe({required String email}) async {
+    webController.isLoading.value = true;
+
+    Map<String, dynamic> data = {'email': email};
+
+    try {
+      var response = await _dio.post('${_baseUrl}unsubscribe',
+          data: data,
+          options: Options(contentType: 'application/x-www-form-urlencoded'));
+      webController.isLoading.value = false;
+      print(response);
+      showSuccessDialog(context: Get.context!, content: "Unsubscribe successfully");
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        webController.isLoading.value = false;
+        showWarningDialog(context: Get.context!, content: "${e.response!.statusCode}: ${e.response!.statusMessage}");
+      }
+    }
+  }
 }
