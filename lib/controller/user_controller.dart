@@ -7,7 +7,7 @@ import 'package:weather_forecast_website/share/widgets/dialog.dart';
 
 class UserController extends GetxController {
   final Dio _dio = Dio();
-  final _baseUrl = "http://localhost:8000/api/";
+  final _baseUrl = "https://weather-web-backend.vercel.app/api/api/";
 
   final WebController webController = Get.find();
 

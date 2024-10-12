@@ -14,8 +14,8 @@ import 'package:weather_forecast_website/share/widgets/dialog.dart';
 
 class WeatherController extends GetxController {
   final WebController webController = Get.find();
-  final _apiUrl = "http://api.weatherapi.com/v1/";
-  final _baseUrl = "http://localhost:8000/api/";
+  final _apiUrl = "https://api.weatherapi.com/v1/";
+  final _baseUrl = "https://weather-web-backend.vercel.app/api/api/";
   final Dio _dio = Dio();
 
   Rx<WeatherModel?> currentWeather = Rx<WeatherModel?>(null);
