@@ -1,16 +1,32 @@
-# weather_forecast_website
+Website Demo: https://weather-website-fe.vercel.app/
 
-A new Flutter project.
+Features: 
+- Display weather data at current/optional location
+- Register/Unregister to get weather daily report
+- Forecast weather
+- Save weather data and display it anytime
 
-## Getting Started
+Below is the instruction to run the Weather Forecast Website
 
-This project is a starting point for a Flutter application.
+**Require:** 
+- Flutter 3.22.1,
+- Dart 3.4.1,
+- Android Studio / IntelliJ / VsCode
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Step 1:
+```bash
+git clone https://github.com/baolqpit/Weather-Webite-FE.git
+cd Weather-Webite-FE
+```
+Step 2:
+```bash
+flutter pub get
+```
+Step 3: 
+```bash
+flutter run -d chrome
+```
+If you have any problem with Flutter
+```bash
+flutter doctor
+```
